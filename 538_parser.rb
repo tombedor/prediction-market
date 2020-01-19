@@ -9,7 +9,7 @@ CANDIDATES = "Sanders,Warren,Biden,Buttigieg,Bloomberg,Klobuchar,Steyer,Yang,Gab
 CSV.open("538_output.csv", "a") do |csv|
 	HEADER = %w(state candidate percent_chance date url)
 	csv << HEADER
-	STATES[0..5].each do |state|
+	STATES.each do |state|
 		url = SITE + state
 		puts "scraping #{url}"
 		driver.navigate.to(url)
