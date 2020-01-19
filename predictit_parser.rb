@@ -15,7 +15,7 @@ PRICES_SCRIPT = (<<-EOF).strip
 return $.map($('.row.row-100.market-contract-horizontal-v2__row'), function(element) {name = $(element).find('.market-contract-horizontal-v2__title-text')[0].innerHTML;yesPrice = $(element).find('.button-price__price')[0].innerHTML;noPrice = $(element).find('.button-price__price')[1].innerHTML;return name + ',' + yesPrice + ',' + noPrice}).join(';')
 EOF
 
-HEADER = %w(state candidate yes_price no_price url)
+HEADER = %w(state candidate yes_price no_price date url)
 CSV.open("predictit_output.csv", "a") do |csv|
 	csv << HEADER
 	p_urls.each do |url|
@@ -30,7 +30,7 @@ CSV.open("predictit_output.csv", "a") do |csv|
 			candidate = row.split(",")[0]
 			yes_price = "0." + row.split(",")[1].gsub("¢", "")
 			no_price = "0." + row.split(",")[2].gsub("¢", "")
-			csv << [state, candidate, yes_price, no_price, url]
+			csv << [state, candidate, yes_price, no_price, Date.today, url]
 		end
 	end
 end
