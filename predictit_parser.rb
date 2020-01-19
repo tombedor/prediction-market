@@ -16,7 +16,7 @@ return $.map($('.row.row-100.market-contract-horizontal-v2__row'), function(elem
 EOF
 
 HEADER = %w(state candidate yes_price no_price url)
-CSV.open("output.csv", "a") do |csv|
+CSV.open("predictit_output.csv", "a") do |csv|
 	csv << HEADER
 	p_urls.each do |url|
 		puts "parsing #{url}"
