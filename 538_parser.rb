@@ -14,17 +14,17 @@ CSV.open("data/538_output_#{Date.today}.csv", "a") do |csv|
 		url = SITE + state
 		puts "scraping #{url}"
 		driver.navigate.to(url)
-		sleep 15
+		sleep 30
 		driver.find_element(:class, "candidate-select").find_elements(tag_name: "option").each do |option|
 			option.click
-			sleep 2
+			sleep 7
 			name = option.attribute("innerText")
 			puts name
 			next if driver.find_element(class: "robo-text").attribute("innerText").include?("is no longer actively campaigning")
 			odds = driver.find_elements(tag_name: 'c')[0].attribute("innerText")[1...-2]
 			yes_price = odds.to_f / 100
 			no_price = 1 - yes_price
-			csv << [state, name, yes_price, no_price, Date.today, url]
+			csv << ['538', state, name, yes_price, no_price, Date.today, url]
 		end
 	end
 end
