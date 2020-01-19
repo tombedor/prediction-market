@@ -5,7 +5,7 @@ driver = Selenium::WebDriver.for :firefox
 
 SITE = "https://projects.fivethirtyeight.com/2020-primary-forecast/"
 STATES = File.read('states.txt').split("\n").map{|s| s.downcase.gsub(" ", "-")}
-STATES = STATES[36..-1]
+STATES = STATES
 CANDIDATES = "Sanders,Warren,Biden,Buttigieg,Bloomberg,Klobuchar,Steyer,Yang,Gabbard,Booker,Harris,Delaney,Patrick,Castro,Bullock,Williamson,Bennet,Sestak".split(",")
 CSV.open("data/538_output_#{Date.today}.csv", "a") do |csv|
 	HEADER = %w(source state candidate yes_price no_price date url)
@@ -14,7 +14,7 @@ CSV.open("data/538_output_#{Date.today}.csv", "a") do |csv|
 		url = SITE + state
 		puts "scraping #{url}"
 		driver.navigate.to(url)
-		sleep 10
+		sleep 15
 		driver.find_element(:class, "candidate-select").find_elements(tag_name: "option").each do |option|
 			option.click
 			sleep 2
