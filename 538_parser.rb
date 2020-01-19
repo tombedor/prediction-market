@@ -3,9 +3,12 @@ require 'csv'
 # Need gem install this and also brew install geckodriver
 driver = Selenium::WebDriver.for :firefox
 
-# urls retrieved with: Array.join($('a[href]').map(function(i, n) { return $(n).attr('href')}), ';')
-SITE = "https://www.predictit.org"
-urls = File.read('urls.txt').split(';')
+SITE = "https://projects.fivethirtyeight.com/2020-primary-forecast/"
+
+
+
+
+STATE_NAMES = %w(Alaska Alabama Arkansas American\ Samoa Arizona California Colorado Connecticut District\ of\ Columbia Delaware Florida Georgia Guam Hawaii Iowa Idaho Illinois Indiana Kansas Kentucky Louisiana Massachusetts Maryland Maine Michigan Minnesota Missouri Mississippi Montana North\ Carolina North\ Dakota Nebraska New\ Hampshire New\ Jersey New\ Mexico Nevada New\ York Ohio Oklahoma Oregon Pennsylvania Puerto\ Rico Rhode\ Island South\ Carolina South\ Dakota Tennessee Texas Utah Virginia Vermont Washington Wisconsin West\ Virginia Wyoming).map(&:downcase).map{|w| w.gsub(" ", "-")}
 
 primaries = urls.filter {|url| url.include? 'Who-will-win'}
 p_urls = primaries.map{|url| SITE + url}
