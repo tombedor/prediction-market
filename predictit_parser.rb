@@ -18,7 +18,7 @@ EOF
 HEADER = %w(source state candidate yes_price no_price date url)
 CSV.open("data/predictit_output_#{Date.today}.csv", "a") do |csv|
 	csv << HEADER
-	p_urls.each do |url|
+	p_urls[1..4].each do |url|
 		puts "parsing #{url}"
 		driver.navigate.to url
 		sleep 30
@@ -28,8 +28,8 @@ CSV.open("data/predictit_output_#{Date.today}.csv", "a") do |csv|
 
 		raw_prices.split(";") do |row|
 			candidate = row.split(",")[0].split()[-1]
-			yes_price = "0." + row.split(",")[1].gsub("¢", "")
-			no_price = "0." + row.split(",")[2].gsub("¢", "")
+			yes_price = row.split(",")[1].gsub("¢", "").to_f / 100
+			no_price = row.split(",")[2].gsub("¢", "").to_f / 100
 			csv << ["predictit", state, candidate, yes_price, no_price, Date.today, url]
 		end
 	end
