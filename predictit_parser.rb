@@ -21,7 +21,7 @@ CSV.open("data/predictit_output_#{Date.today}.csv", "w") do |csv|
 	p_urls[1..4].each do |url|
 		puts "parsing #{url}"
 		driver.navigate.to url
-		sleep 30
+		sleep 10
 		raw_prices = driver.execute_script(PRICES_SCRIPT)
 		raw_title = driver.execute_script(TITLE_SCRIPT)
 		state = raw_title.gsub("Who will win the 2020 ", "").gsub(/ Democratic.*/, "").downcase.gsub(' ', '-')

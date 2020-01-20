@@ -14,10 +14,10 @@ CSV.open("data/538_output_#{Date.today}.csv", "w") do |csv|
 		url = SITE + state
 		puts "scraping #{url}"
 		driver.navigate.to(url)
-		sleep 30
+		sleep 10
 		driver.find_element(:class, "candidate-select").find_elements(tag_name: "option").each do |option|
 			option.click
-			sleep 7
+			sleep 3
 			name = option.attribute("innerText")
 			puts name
 			next if driver.find_element(class: "robo-text").attribute("innerText").include?("is no longer actively campaigning")
