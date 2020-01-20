@@ -5,7 +5,6 @@ driver = Selenium::WebDriver.for :firefox
 
 SITE = "https://projects.fivethirtyeight.com/2020-primary-forecast/"
 STATES = File.read('states.txt').split("\n").map{|s| s.downcase.gsub(" ", "-")}
-STATES = STATES
 CANDIDATES = "Sanders,Warren,Biden,Buttigieg,Bloomberg,Klobuchar,Steyer,Yang,Gabbard,Booker,Harris,Delaney,Patrick,Castro,Bullock,Williamson,Bennet,Sestak".split(",")
 CSV.open("data/538_output_#{Date.today}.csv", "w") do |csv|
 	HEADER = %w(source state candidate yes_price no_price date url)

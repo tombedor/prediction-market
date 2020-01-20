@@ -18,7 +18,7 @@ EOF
 HEADER = %w(source state candidate yes_price no_price date url)
 CSV.open("data/predictit_output_#{Date.today}.csv", "w") do |csv|
 	csv << HEADER
-	p_urls[1..4].each do |url|
+	p_urls.each do |url|
 		puts "parsing #{url}"
 		driver.navigate.to url
 		sleep 10
