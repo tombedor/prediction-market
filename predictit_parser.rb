@@ -5,7 +5,7 @@ driver = Selenium::WebDriver.for :firefox
 
 # urls retrieved with: Array.join($('a[href]').map(function(i, n) { return $(n).attr('href')}), ';')
 SITE = "https://www.predictit.org"
-urls = File.read('urls.txt').split(';')
+urls = File.read('urls.txt').split("\n")
 
 primaries = urls.filter {|url| url.include? 'Who-will-win'}
 p_urls = primaries.map{|url| SITE + url}
@@ -18,6 +18,7 @@ EOF
 HEADER = %w(source state candidate yes_price no_price date url)
 CSV.open("data/predictit_output_#{Date.today}.csv", "w") do |csv|
 	csv << HEADER
+        puts "scraping #{p_urls.count} urls"
 	p_urls.each do |url|
 		puts "parsing #{url}"
 		driver.navigate.to url
