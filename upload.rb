@@ -1,6 +1,7 @@
 BUCKET = "gs://partjamsdotbiz-election-data/"
 require 'csv'
 
+keepalive = Thread.new { %x(caffeinate -d) }
 
 load '538_parser.rb'
 load 'predictit_parser.rb'
@@ -24,9 +25,10 @@ CSV.open("data/combined_#{Date.today}.csv", "w") do |csv|
 		delta_no = pno - fno
 		delta_yes_percent = delta_yes / pyes
 		delta_no_percent = delta_no / pno
-		
+
 		csv << [date, state, candidate, pyes, pno, fyes, fno, delta_yes, delta_no, delta_yes_percent, delta_no_percent, prow['url'], frow['url']]
 	end
 end
 
 %x(gsutil cp data/* #{BUCKET})
+keepalive.kill
