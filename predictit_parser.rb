@@ -2,6 +2,7 @@ require "selenium-webdriver"
 require 'csv'
 # Need gem install this and also brew install geckodriver
 driver = Selenium::WebDriver.for :firefox
+sleep 5
 
 # urls retrieved with: Array.join($('a[href]').map(function(i, n) { return $(n).attr('href')}), ';')
 SITE = "https://www.predictit.org"
@@ -15,6 +16,7 @@ PRICES_SCRIPT = (<<-EOF).strip
 return $.map($('.row.row-100.market-contract-horizontal-v2__row'), function(element) {name = $(element).find('.market-contract-horizontal-v2__title-text')[0].innerHTML;yesPrice = $(element).find('.button-price__price')[0].innerHTML;noPrice = $(element).find('.button-price__price')[1].innerHTML;return name + ',' + yesPrice + ',' + noPrice}).join(';')
 EOF
 
+PAGE_WAIT = 10
 HEADER = %w(source state candidate yes_price no_price date url)
 CSV.open("data/predictit_output_#{Date.today}.csv", "w") do |csv|
 	csv << HEADER
@@ -22,7 +24,7 @@ CSV.open("data/predictit_output_#{Date.today}.csv", "w") do |csv|
 	p_urls.each do |url|
 		puts "parsing #{url}"
 		driver.navigate.to url
-		sleep 10
+		sleep PAGE_WAIT
 		raw_prices = driver.execute_script(PRICES_SCRIPT)
 		raw_title = driver.execute_script(TITLE_SCRIPT)
 		state = raw_title.gsub("Who will win the 2020 ", "").gsub(/ Democratic.*/, "").downcase.gsub(' ', '-')

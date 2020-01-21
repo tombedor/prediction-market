@@ -2,6 +2,10 @@ require "selenium-webdriver"
 require 'csv'
 # Need gem install this and also brew install geckodriver
 driver = Selenium::WebDriver.for :firefox
+sleep 5
+
+PAGE_WAIT = 10
+CANDIDATE_WAIT = 2
 
 SITE = "https://projects.fivethirtyeight.com/2020-primary-forecast/"
 STATES = File.read('states.txt').split("\n").map{|s| s.downcase.gsub(" ", "-")}
@@ -14,10 +18,10 @@ CSV.open("data/538_output_#{Date.today}.csv", "w") do |csv|
 		url = SITE + state
 		puts "scraping #{url}"
 		driver.navigate.to(url)
-		sleep 10
+		sleep PAGE_WAIT
 		driver.find_element(:class, "candidate-select").find_elements(tag_name: "option").each do |option|
 			option.click
-			sleep 3
+			sleep CANDIDATE_WAIT
 			name = option.attribute("innerText")
 			puts name
 			next if driver.find_element(class: "robo-text").attribute("innerText").include?("is no longer actively campaigning")
