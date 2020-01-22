@@ -6,8 +6,8 @@ keepalive = Thread.new { %x(caffeinate -d) }
 load '538_parser.rb'
 load 'predictit_parser.rb'
 
-five_thirty_eight = CSV.parse(File.read("data/538_output_2020-01-19.csv"), headers:true)
-predictit = CSV.parse(File.read("data/predictit_output_2020-01-19.csv"), headers: true)
+five_thirty_eight = CSV.parse(File.read("data/538_output_#{Date.today}.csv"), headers:true)
+predictit = CSV.parse(File.read("data/predictit_output_#{Date.today}.csv"), headers: true)
 
 
 CSV.open("data/combined_#{Date.today}.csv", "w") do |csv|
